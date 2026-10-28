@@ -1,3 +1,1 @@
-export function hello() {
-    return "Deckchess game package loaded";
-  }
+export * from './cards.js'
