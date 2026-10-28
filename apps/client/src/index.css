@@ -17,6 +17,9 @@
   --color-card-blue: #5B8DEF;
   --color-card-coral: #E86A5C;
   --color-card-teal: #5CC9A7;
+
+  --color-board-light: #EDE8DA;
+  --color-board-dark: #9AA1B9;
 }
 
 @layer base {

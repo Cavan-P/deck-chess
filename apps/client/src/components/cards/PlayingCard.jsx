@@ -1,44 +1,14 @@
 import Icon from '../ui/Icon.jsx'
 import MiniBoard from '../board/MiniBoard.jsx'
-
-export const PIECE_GLYPHS = {
-    king: '\u265A\uFE0E',
-    queen: '\u265B\uFE0E',
-    rook: '\u265C\uFE0E',
-    bishop: '\u265D\uFE0E',
-    knight: '\u265E\uFE0E',
-    pawn: '\u265F\uFE0E',
-}
+import { PIECE_GLYPHS, CARD_SIZES } from './cardSizes.js'
 
 const CARD_FILLS = {
-    ivory: 'bg-ivory',
-    accent: 'bg-accent',
-    blue: 'bg-card-blue',
-    coral: 'bg-card-coral',
-    teal: 'bg-card-teal',
-}
-
-const CARD_SIZES = {
-    md: {
-        frame: 'w-[190px] rounded-[18px] p-4',
-        corner: 34,
-        value: 'text-[110px]',
-        glyph: 'text-[120px]',
-        board: 110,
-        icon: 36,
-        label: 'text-lg',
-        art: 95
-    },
-    sm: {
-        frame: 'w-[130px] rounded-xl p-3',
-        corner: 23,
-        value: 'text-[75px]',
-        glyph: 'text-[82px]',
-        board: 75,
-        icon: 24,
-        label: 'text-xs',
-        art: 65
-    },
+    ivory: 'bg-ivory text-ink',
+    accent: 'bg-accent text-ink',
+    blue: 'bg-card-blue text-ink',
+    coral: 'bg-card-coral text-ink',
+    teal: 'bg-card-teal text-ink',
+    ink: 'bg-ink text-ivory border-2 border-ivory/15',
 }
 
 export function CardFrame({ corner, footer, size = 'md', color = 'ivory', rotate = 0, className = '', style, children }){
@@ -48,8 +18,8 @@ export function CardFrame({ corner, footer, size = 'md', color = 'ivory', rotate
 
     return (
         <div
-        className={`flex aspect-19/28 ${s.frame} flex-col justify-between text-ink shadow-[0_18px_40px_rgba(0,0,0,0.45)] ${fill} ${className}`}
-        style={{ transform: `rotate(${rotate}deg)`, ...style }}
+        className={`flex aspect-19/28 ${s.frame} flex-col justify-between shadow-[0_18px_40px_rgba(0,0,0,0.45)] ${fill} ${className}`}
+        style={{ width: s.width, transform: `rotate(${rotate}deg)`, ...style }}
         >
         <span className='font-display leading-none font-extrabold' style={cornerStyle}>
             {corner}
@@ -117,6 +87,31 @@ export function IconCard({ icon, label, color = 'accent', size = 'md', ...frameP
             {...frameProps}
         >
             <Icon name={icon} size={s.art} strokeWidth={2} />
+        </CardFrame>
+    )
+}
+
+const WILD_WHEEL = 'conic-gradient(var(--color-card-blue) 0 25%, var(--color-card-coral) 0 50%, var(--color-card-teal) 0 75%, var(--color-accent) 0)'
+
+export function WildCard({ value, size = 'md', ...frameProps }) {
+    const s = CARD_SIZES[size]
+
+    return (
+        <CardFrame
+            color='ink'
+            size={size}
+            corner={value}
+            footer={<span className={`font-display ${s.label} font-extrabold tracking-[1px]`}>WILD</span>}
+            {...frameProps}
+        >
+            <div
+                className='flex rotate-45 items-center justify-center rounded-full'
+                style={{ width: s.art, height: s.art, background: WILD_WHEEL }}
+            >
+                <div className='flex size-[70%] -rotate-45 items-center justify-center rounded-full bg-ink'>
+                    <span className={`font-display ${s.wild} leading-none font-extrabold`}>{value}</span>
+                </div>
+            </div>
         </CardFrame>
     )
 }

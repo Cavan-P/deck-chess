@@ -1,40 +1,9 @@
-import { CARD_TYPES, GENERAL_RULES } from '@deckchess/game'
+import { CARD_GROUPS, CARD_TYPES, GENERAL_RULES } from '@deckchess/game'
 import IconButton from '../components/ui/IconButton.jsx'
-import { RotateCard, ValueCard, PieceCard, IconCard } from '../components/cards/PlayingCard.jsx'
+import CardFan from '../components/cards/CardFan.jsx'
+
 
 const CHESS_RULES_URL = 'https://en.wikipedia.org/wiki/Rules_of_chess'
-
-const KIND_COLORS = {
-    move: 'blue',
-    place: 'coral',
-    swap: 'coral',
-    promote: 'coral',
-    skip: 'teal',
-    discard: 'teal',
-    freeze: 'teal',
-    rotate: 'accent',
-}
-
-const KIND_ICONS = {
-    skip: 'skip',
-    freeze: 'freeze',
-    swap: 'swap',
-    promote: 'promote',
-}
-
-function CardFace({ card, size }) {
-    const color = KIND_COLORS[card.kind]
-
-    if (card.kind === 'rotate') {
-        return <RotateCard size={size} color={color} />
-    }
-
-    if (card.value) {
-        return <ValueCard size={size} value={card.value} color={color} />
-    }
-
-    return <IconCard size={size} color={color} icon={KIND_ICONS[card.kind]} label={card.name.toUpperCase()} />
-}
 
 export default function RulesScreen({ onBack }) {
     return (
@@ -68,21 +37,27 @@ export default function RulesScreen({ onBack }) {
 
                 <section className='flex flex-col gap-6'>
                     <h2 className='font-display text-2xl font-extrabold'>The cards</h2>
-                    <div className='grid grid-cols-1 gap-6 lg:grid-cols-2'>
-                        {CARD_TYPES.map(card => (
-                            <article
-                                key={card.id}
-                                className='flex flex-col items-center gap-5 rounded-2xl border border-line bg-surface p-6 sm:flex-row sm:items-start'
-                            >
-                                <div className='shrink-0'>
-                                    <CardFace card={card} size='sm' />
-                                </div>
-                                <div className='flex flex-1 flex-col gap-2'>
-                                    <h3 className='font-display text-xl font-extrabold'>{card.name}</h3>
-                                    <p className='leading-relaxed'>{card.description}</p>
-                                </div>
-                            </article>
-                        ))}
+                    <div className='grid grid-cols-1 gap-6 xl:grid-cols-2'>
+                        {CARD_GROUPS.map(group => {
+                            const cards = group.preview
+                                ? group.preview.map(id => CARD_TYPES.find(card => card.id == id))
+                                : CARD_TYPES.filter(card => card.kind == group.id)
+
+                            return (
+                                <article
+                                    key={group.id}
+                                    className='flex flex-col items-center gap-5 rounded-2xl border border-line bg-surface p-6 sm:flex-row'
+                                >
+                                    <div className='flex shrink-0 justify-center sm:w-60'>
+                                        <CardFan cards={cards} />
+                                    </div>
+                                    <div className='flex flex-1 flex-col gap-2'>
+                                        <h3 className='font-display text-xl font-extrabold'>{group.name}</h3>
+                                        <p className='leading-relaxed'>{group.description}</p>
+                                    </div>
+                                </article>
+                            )
+                        })}
                     </div>
                 </section>
             </div>
