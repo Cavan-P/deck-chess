@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 
-const DEFAULTS = { pieceLook: 'glyph' }
+const DEFAULTS = { pieceLook: 'glyph', moveInput: 'drag' }
 const STORAGE_KEY = 'deckchess-settings'
 
 const SettingsContext = createContext(null)

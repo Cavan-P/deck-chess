@@ -60,6 +60,18 @@ const PATHS = {
             <path d="M21 16H7" />
         </>
     ),
+    drag: (
+        <>
+            <path d="M12 3v18M3 12h18" />
+            <path d="M9 6l3-3 3 3M9 18l3 3 3-3M6 9l-3 3 3 3M18 9l3 3-3 3" />
+        </>
+    ),
+    click: (
+        <>
+            <path d="M9 9l11 4-5 2-2 5z" />
+            <path d="M4 4l2 2M9 2v3M2 9h3" />
+        </>
+    ),
     promote: (
         <>
             <path d="M12 20V6" />
